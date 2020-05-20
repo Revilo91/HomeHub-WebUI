@@ -1,292 +1,478 @@
 {
     "custom": {
-        "Home": [
-            {
-                "name": "Anwesenheit Markus",
-                "icon": "control_clear.png"
+        "Home_Index": [{
+                "name": "Pooltemperatur",
+                "icon": "temp_temperature.png",
+                "display_name": "Pooltemperatur"
             },
             {
-                "name": "Anwesenheit Roman",
-                "icon": "control_clear.png"
+                "name": "Temp Max  Heute",
+                "icon": "text_max.png",
+                "display_name": "Temperatur heute max",
+                "operate": "false",
+                "color": "#f44336"
             },
             {
-                "name": "Anwesenheit Simone",
-                "icon": "control_clear.png",
+                "name": "Wetterstation:1",
+                "icon": "temp_temperature.png",
+                "display_name": "Wetterstation"
+            },
+            {
+                "name": "Temp Min  Heute",
+                "icon": "text_min.png",
+                "display_name": "Temperatur heute min",
+                "operate": "false",
+                "color": "#03a9f4"
+            },
+            {
+                "name": "Anwesenheit.list",
+                "icon": "status_available.png",
+                "display_name": "Wer ist anwesend: ",
+                "operate": "false"
+            }
+        ],
+        "KG_Licht": [{
+                "name": "Licht Keller",
+                "icon": "light_light.png",
+                "display_name": "Licht"
+            },
+            {
+                "name": "Keller_Blumenlicht",
+                "icon": "light_light.png",
+                "display_name": "Blumen"
+            }
+        ],
+        "KG_Heizung": [{
+            "name": "Feuchte und Temp Keller",
+            "icon": "sani_heating.png",
+            "display_name": "Keller",
+            "color": "#00CC33"
+        }],
+        "EG_Licht": [{
+                "name": "Beamer",
+                "icon": "it_television.png",
+                "display_name": "Beamer"
+            },
+            {
+                "name": "HDMI Switch und Fire TV",
+                "icon": "light_light.png",
+                "display_name": "HDMI Switch und Fire TV",
                 "append_divider": "true"
             },
             {
-                "name": "Roman online",
-                "icon": "control_clear.png",
-                "append_divider": "true",
-                "invert_color": "true"
+                "name": "LampeWZ_Schrank Oben Birnen",
+                "icon": "light_light.png",
+                "display_name": "Schrank Oben Birnen"
             },
             {
-                "name": "Einfahrt Wetter:1",
-                "icon": "scene_garden.png",
-                "display_name": "Wetter"
+                "name": "LampeWZ_Balken_nord",
+                "icon": "light_light.png",
+                "display_name": "Balken norden"
             },
             {
-                "component": "Sonnenstand",
-                "name": "Sonnenstand",
+                "name": "LampeWZ_SchrankInnen",
+                "icon": "light_light.png",
+                "display_name": "Schrank Innen"
+            },
+            {
+                "name": "LampeWZ_SchrankRegale",
+                "icon": "light_light.png",
+                "display_name": "Schrank Regale"
+            },
+            {
+                "name": "LampeWZ_Schrank Oben LED Streifen",
+                "icon": "light_light.png",
+                "display_name": "Schrank Oben LED Streifen"
+            },
+            {
+                "name": "Lampe_WZ_Fenster",
+                "icon": "light_light.png",
+                "display_name": "Wohnzimmer Fenster"
+            },
+            {
+                "name": "Lampe_EZ_Fenster",
+                "icon": "light_light.png",
+                "display_name": "Esszimmer Fenster"
+            },
+            {
+                "name": "Lampe_WZ Fenster oben",
+                "icon": "light_light.png",
+                "display_name": "Wohnzimmer Fenster oben",
+                "append_divider": "true"
+            },
+            {
+                "name": "Licht Marion Wäscheschrank",
+                "icon": "light_light.png",
+                "display_name": "Licht Marion Wäscheschrank"
+            },
+            {
+                "name": "Licht Marion Schrank",
+                "icon": "light_light.png",
+                "display_name": "Licht Marion Schrank"
+            }
+        ],
+        "Fenster_EG": [{
+                "name": "Bad_EG_Fensterkontakt",
+                "icon": "fts_window_1w_open.png",
+                "display_name": "Bad"
+            },
+            {
+                "name": "EZ_Fensterkontakt",
+                "icon": "fts_window_1w_open.png",
+                "display_name": "Esszimmer"
+            },
+            {
+                "name": "EZ_Küche Tür_Fensterkontakt",
+                "icon": "fts_door.png",
+                "display_name": "Küchentür",
+                "icon_type": "Door"
+            },
+            {
+                "name": "EZ_Küche Tür_Fliegengitterkontakt",
+                "icon": "fts_door.png",
+                "display_name": "Küchentür Fliegengitter",
+                "icon_type": "Door"
+            },
+            {
+                "name": "EZ_Küche_Türkontakt",
+                "icon": "fts_window_1w_open.png",
+                "display_name": "Küchentürgriff",
+                "icon_type": "Door"
+            },
+            {
+                "name": "Haustür_Fensterkontakt",
+                "icon": "fts_door.png",
+                "display_name": "Haustür",
+                "icon_type": "Door"
+            },
+            {
+                "name": "SZ_Marion_Fensterkontakt",
+                "icon": "fts_window_1w_open.png",
+                "display_name": "Marion"
+            },
+            {
+                "name": "WZ_Tür_Fensterkontakt",
+                "icon": "fts_door.png",
+                "display_name": "Wohnzimmertür",
+                "icon_type": "Door"
+            },
+            {
+                "name": "WZ Tür_Fliegengitterkontakt",
+                "icon": "fts_door.png",
+                "display_name": "Wohnzimmertür Fliegengitter",
+                "icon_type": "Door"
+            },
+            {
+                "name": "WZ_Türkontakt",
+                "icon": "fts_window_1w_open.png",
+                "display_name": "Wohnzimmertür Griff",
+                "icon_type": "Door"
+            },
+            {
+                "name": "WZ_Fensterkontakt",
+                "icon": "fts_window_1w_open.png",
+                "display_name": "Wohnzimmer"
+            }
+        ],
+        "EG_Rolllaeden": [{
+                "name": "Rollladen Marion",
+                "icon": "fts_shutter_50.png",
+                "display_name": "Marion"
+            },
+            {
+                "name": "WZ Nord Rechts",
+                "icon": "fts_shutter_50.png",
+                "display_name": "WZ Nord Rechts"
+            },
+            {
+                "name": "WZ Nord Links",
+                "icon": "fts_shutter_50.png",
+                "display_name": "WZ Nord Links"
+            },
+            {
+                "name": "WZ West Rechts",
+                "icon": "fts_shutter_50.png",
+                "display_name": "WZ West Rechts"
+            },
+            {
+                "name": "WZ Tür",
+                "icon": "fts_shutter_50.png",
+                "display_name": "WZ Tür"
+            },
+            {
+                "name": "WZ Süd Rechts",
+                "icon": "fts_shutter_50.png",
+                "display_name": "WZ Süd Rechts"
+            },
+            {
+                "name": "WZ West Links",
+                "icon": "fts_shutter_50.png",
+                "display_name": "WZ West Links"
+            },
+            {
+                "name": "EZ West",
+                "icon": "fts_shutter_50.png",
+                "display_name": "EZ West"
+            },
+            {
+                "name": "Küche Tür",
+                "icon": "fts_shutter_50.png",
+                "display_name": "Küche Tür"
+            },
+            {
+                "name": "Bad_EG_Rollade",
+                "icon": "fts_shutter_50.png",
+                "display_name": "Bad"
+            }
+        ],
+        "EG_Heizung": [{
+                "name": "SZ_Marion_Temp_ist",
+                "icon": "sani_heating.png",
+                "display_name": "Marion"
+            },
+            {
+                "name": "WZ_temp_ist",
+                "icon": "sani_heating.png",
+                "display_name": "Wohnzimmer"
+            },
+            {
+                "name": "EZ_temp_ist",
+                "icon": "sani_heating.png",
+                "display_name": "Esszimmer"
+            },
+            {
+                "name": "Flur_temp_ist",
+                "icon": "sani_heating.png",
+                "display_name": "Flur"
+            },
+            {
+                "name": "Bad_EG_temp_ist",
+                "icon": "sani_heating.png",
+                "display_name": "Bad"
+            }
+        ],
+        "OG_Licht": [{
+            "name": "SZ_Oliver_Schaltaktor_1",
+            "icon": "light_light.png",
+            "display_name": "Oliver"
+        }],
+        "OG_Schalter": [{
+            "name": "3D-Drucker_Schalter",
+            "icon": "light_light.png",
+            "display_name": "3D Drucker"
+        }],
+        "Fenster_OG": [{
+                "name": "SZ_Oliver_Fensterkontakt",
+                "icon": "fts_window_1w.png",
+                "display_name": "Oliver"
+            },
+            {
+                "name": "SZ_Alexa_Fensterkontakt",
+                "icon": "fts_window_1w.png",
+                "display_name": "Alexa"
+            },
+            {
+                "name": "SZ_Michael_Fensterkontakt_links",
+                "icon": "fts_window_1w.png",
+                "display_name": "Michael links"
+            },
+            {
+                "name": "SZ_Michael_Fensterkontakt_rechts",
+                "icon": "fts_window_1w.png",
+                "display_name": "Michael rechts"
+            },
+            {
+                "name": "SZ_Michael_Fensterkontakt_Tür",
+                "icon": "fts_door.png",
+                "display_name": "Michael Tür",
+                "icon_type": "Door"
+            },
+            {
+                "name": "SZ_Michael_Türkontakt",
+                "icon": "fts_door.png",
+                "display_name": "Michael Türgriff",
+                "icon_type": "Door"
+            },
+            {
+                "name": "Bad_OG_Fensterkontakt_Dachfenster",
+                "icon": "fts_window_roof.png",
+                "display_name": "Dachfenster",
+                "icon_type": "Roof"
+            },
+            {
+                "name": "Bad_OG_Fensterkontakt_links",
+                "icon": "fts_window_1w.png",
+                "display_name": "Bad links"
+            },
+            {
+                "name": "Bad_OG_Fensterkontakt_links",
+                "icon": "fts_window_1w.png",
+                "display_name": "Bad rechts"
+            }
+        ],
+        "OG_Rolllaeden": [{
+                "name": "Rollladen Alexa",
+                "icon": "fts_shutter_50.png",
+                "display_name": "Alexa"
+            },
+            {
+                "name": "Rollladen Oliver",
+                "icon": "fts_shutter_50.png",
+                "display_name": "Oliver"
+            },
+            {
+                "name": "Bad_OG_Rolladen",
+                "icon": "fts_shutter_50.png",
+                "display_name": "Badezimmer"
+            },
+            {
+                "name": "Rollladen Michael Fenster",
+                "icon": "fts_shutter_50.png",
+                "display_name": "Michael Fenster"
+            },
+            {
+                "name": "Rollladen Michael Tür",
+                "icon": "fts_shutter_50.png",
+                "display_name": "Michael Tür"
+            }
+        ],
+        "OG_Heizung": [{
+                "name": "SZ_Alexa_Temp_ist",
+                "icon": "sani_heating.png",
+                "display_name": "Michael"
+            },
+            {
+                "name": "SZ_Oliver_Temp_ist",
+                "icon": "sani_heating.png",
+                "display_name": "Oliver"
+            },
+            {
+                "name": "SZ_Alexa_Temp_ist",
+                "icon": "sani_heating.png",
+                "display_name": "Alexa"
+            },
+            {
+                "name": "Bad_OG_temp_ist",
+                "icon": "sani_heating.png",
+                "display_name": "Badezimmer",
+                "append_divider": "true"
+            }
+        ],
+        "Garten_Licht": [{
+                "name": "Laterne Pool",
+                "icon": "light_light.png",
+                "display_name": "Laterne Pool"
+            },
+            {
+                "name": "Licht Pool",
+                "icon": "light_light.png",
+                "display_name": "Licht Pool"
+            },
+            {
+                "name": "Licht Holzterasse",
+                "icon": "light_light.png",
+                "display_name": "Licht Holzterasse"
+            }
+        ],
+        "Garten_Strom": [{
+            "name": "Steckdose Brunnen",
+            "icon": "control_on_off.png",
+            "display_name": "Steckdose Brunnen",
+            "color": "#FF6600"
+        }],
+        "Garten_Umwelt": [{
+                "name": "Sonnenstunden",
                 "icon": "weather_sun.png",
-                "append_divider": "true"
+                "display_name": "Sonnenschein",
+                "color": "#00CC33",
+                "operate": "false",
+                "indicator_mode": "off"
             },
             {
-                "component": "Tankerkoenig",
-                "name": "Benzinpreise",
-                "icon": "homehub_tanken.png",
-                "api_key": "00000000-0000-0000-0000-000000000002",
-                "station_id": "92f703e8-0b3c-46da-9948-25cb1a6a1514",
-                "fuel_types": ["e5", "e10", "diesel"]
+                "name": "Wetterstation:1",
+                "icon": "weather_station.png",
+                "display_name": "Wetterstation",
+                "color": "#00CC33"
             },
             {
-                "name": "Wasserfilter Status",
-                "icon": "control_clear.png",
-                "invert_color": "true"
-            },
-            {
-                "name": "Jalousie Steuerung abends",
-                "icon": "control_switch_m_4.png"
-            },
-            {
-                "name": "Jalousie Steuerung Beschattung",
-                "icon": "control_switch_m_4.png"
-            },
-            {
-                "name": "Jalousie Steuerung morgens",
-                "icon": "control_switch_m_4.png"
+                "name": "Pooltemperatur",
+                "icon": "temp_temperature.png",
+                "display_name": "Pooltemperatur"
             }
         ],
-        "Wohnzimmer": [
-            {
-                "name": "Wohnzimmer Jalousie:1",
-                "icon": "fts_shutter_50.png",
-                "display_name": "Jalousie"
+        "Garten_Erkennung": [{
+                "name": "Bewegungsmelder Pool",
+                "icon": "message_presence.png",
+                "display_name": "Bewegungsmelder Pool"
             },
             {
-                "name": "Wohnzimmer Heizung:4",
-                "icon": "sani_heating.png",
-                "display_name": "Heizung",
-                "append_divider": "true"
-            },
-            {
-                "name": "Wohnzimmer Kugellampe:1",
-                "icon": "light_light_dim_100.png",
-                "display_name": "Kugellampe"
+                "name": "Bewegungsmelder Garten",
+                "icon": "message_presence.png",
+                "display_name": "Bewegungsmelder Garten"
             }
         ],
-        "Küche": [
-            {
-                "name": "Küche Jalousie:1",
-                "icon": "fts_shutter_50.png",
-                "display_name": "Jalousie",
-                "append_divider": "true"
+        "System_Status": [{
+            "name": "DutyCycle",
+            "icon": "measure_power_meter.png",
+            "display_name": "DutyCycle",
+            "operate": "false"
+        }],
+        "Heizungzentrale": [{
+                "name": "Heizung Zentrale",
+                "icon": "control_on_off.png",
+                "display_name": "Heizung Zentrale",
+                "color": "#00CC33",
+                "operate": "false"
             },
             {
-                "component": "Licht",
-                "name": "Licht",
-                "icon": "light_light_dim_100.png"
+                "name": "Heizung Gasterme",
+                "icon": "control_on_off.png",
+                "display_name": "Heizung Gasterme",
+                "color": "#00CC33",
+                "operate": "false"
+            },
+            {
+                "name": "Heizung Vorlaufpumpe",
+                "icon": "control_on_off.png",
+                "display_name": "Heizung Vorlaufpumpe",
+                "color": "#00CC33",
+                "operate": "false"
+            },
+            {
+                "name": "Heizung Solarpumpe",
+                "icon": "control_on_off.png",
+                "display_name": "Heizung Solarpumpe",
+                "color": "#00CC33",
+                "operate": "false"
             }
         ],
-        "Badezimmer": [
-            {
-                "name": "Badezimmer Fenster:1",
-                "icon": "fts_window_2w_open_l.png",
-                "display_name": "Fenster"
-            },
-            {
-                "name": "Badezimmer Heizung:4",
-                "icon": "sani_heating.png",
-                "display_name": "Heizung"
-            }
-        ],
-        "Esszimmer": [
-            {
-                "name": "Esszimmer Heizung:4",
-                "icon": "sani_heating.png",
-                "display_name": "Heizung",
-                "append_divider": "true"
-            },
-            {
-                "name": "Esszimmer Stehlampe:2",
-                "icon": "light_light_dim_100.png",
-                "display_name": "Stehlampe"
-            }
-        ],
-        "Schlafzimmer": [
-            {
-                "name": "Schlafzimmer Jalousie:1",
-                "icon": "fts_shutter_50.png",
-                "display_name": "Jalousie"
-            },
-            {
-                "name": "Schlafzimmer Heizung:4",
-                "icon": "sani_heating.png",
-                "display_name": "Heizung"
-            }
-        ],
-        "Büro": [
-            {
-                "name": "Büro Jalousie:1",
-                "icon": "fts_shutter_50.png",
-                "display_name": "Jalousie"
-            },
-            {
-                "name": "Büro Heizung:4",
-                "icon": "sani_heating.png",
-                "display_name": "Heizung"
-            }
-        ],
-        "Toilette": [
-            {
-                "name": "Toilette Heizung:4",
-                "icon": "sani_heating.png",
-                "display_name": "Heizung",
-                "append_divider": "true"
-            },
-            {
-                "name": "Waschmaschine Status",
-                "icon": "control_clear.png"
-            },
-            {
-                "name": "Toilette Waschmaschine:1",
-                "icon": "scene_washing_machine.png",
-                "display_name": "Waschmaschine"
-            }
-        ],
-        "Kinderzimmer": [
-            {
-                "name": "Kinderzimmer Heizung links:4",
-                "icon": "sani_heating.png",
-                "display_name": "Heizung links"
-            },
-            {
-                "name": "Kinderzimmer Heizung rechts:4",
-                "icon": "sani_heating.png",
-                "display_name": "Heizung rechts",
-                "append_divider": "true"
-            },
-            {
-                "name": "Roman online",
-                "icon": "control_clear.png"
-            }
-        ],
-        "Einfahrt": [
-            {
-                "component": "Webcam",
-                "name": "Webcam",
-                "icon": "it_camera.png",
-                "append_divider": "true"
-            },
-            {
-                "name": "Einfahrt Carport Steckdosen:3",
-                "icon": "message_socket.png",
-                "display_name": "Carport Steckdosen"
-            },
-            {
-                "name": "Einfahrt Mülltonnen Licht:4",
-                "icon": "light_outdoor.png",
-                "display_name": "Mülltonnen Licht",
-                "append_divider": "true"
-            },
-            {
-                "name": "Abholung blaue Tonne",
-                "icon": "homehub_abfalltonne.png"
-            },
-            {
-                "name": "Abholung braune Tonne",
-                "icon": "homehub_abfalltonne.png"
-            },
-            {
-                "name": "Abholung gelbe Tonne",
-                "icon": "homehub_abfalltonne.png"
-            },
-            {
-                "name": "Abholung schwarze Tonne",
-                "icon": "homehub_abfalltonne.png"
-            }
-        ],
-        "Garten": [
-            {
-                "name": "Garten Bewegungsmelder:1",
-                "icon": "status_man.png",
-                "display_name": "Bewegungsmelder"
-            },
-            {
-                "name": "Garten Garage Licht:1",
-                "icon": "light_outdoor.png",
-                "display_name": "Garage Licht"
-            },
-            {
-                "name": "Garten Garage Steckdosen:2",
-                "icon": "message_socket.png",
-                "display_name": "Garage Steckdosen",
-                "append_divider": "true"
-            },
-            {
-                "name": "Gartenpumpe Status",
-                "icon": "control_clear.png"
-            }
-        ],
-        "Custom": [
-            {
-                "component": "WeatherUnderground",
-                "name": "Wetter Dorsten",
-                "icon": "weather_sunrise.png",
-                "api_key": "debacc481ca48e16",
-                "station": "pws:IDORSTEN36"
-            },
-            {
-                "component": "Tagesschau",
-                "name": "Tagesschau",
-                "icon": "scene_scene.png"
-            },
-            {
-                "component": "Webcam",
-                "name": "Webcam",
-                "icon": "it_camera.png"
-            },
-            {
-                "component": "Audio",
-                "name": "Radio Erft",
-                "icon": "it_radio.png",
-                "file": "http://edge.live.mp3.mdn.newmedia.nacamar.net/ps-radioerft/livestream.mp3"
-            },
-            {
-                "component": "Iframe",
-                "name": "HomeMatic Forum",
-                "icon": "it_internet.png",
-                "url": "http://homematic-forum.de/forum/"
-            },
-            {
-                "component": "DoorBird",
-                "name": "DoorBird",
-                "icon": "it_camera.png",
-                "ip": "DOORBIRD_IP",
-                "user": "user",
-                "password": "password",
-                "resolution": "640x480"
-            }
-        ],
-        "Heizung": [
-            {
-                "name": "Wohnzimmer Heizung:4",
-                "icon": "sani_heating.png",
-                "display_name": "Heizung Wohnzimmer"
-            },
-            {
-                "name": "Schlafzimmer Heizung:4",
-                "icon": "sani_heating.png",
-                "display_name": "Heizung Schlafzimmer",
-                "append_divider": "true"
-            }
-        ],
-        "Systemvariablen": [
-            {
-                "name": "Roman online",
-                "icon": "control_clear.png",
-                "invert_color": "true"
-            }
-        ]
+        "Garage_Tor": [{
+            "name": "Garagentor Zustand",
+            "icon": "fts_garage_door_100.png",
+            "display_name": "Garagentor",
+            "icon_type": "Gate"
+        }],
+        "Carport_Tor": [{
+            "name": "Carport Zustand",
+            "icon": "fts_garage_door_100.png",
+            "display_name": "Carport",
+            "icon_type": "Gate"
+        }],
+        "Hütte_Tür": [{
+            "name": "Hüttentür",
+            "icon": "fts_door.png",
+            "display_name": "Hüttentür",
+            "icon_type": "Door"
+        }],
+        "TEST": [{
+            "name": "Helligkeit in Lux",
+            "icon": "weather_light_meter.png",
+            "display_name": "Lux"
+        }, {
+            "name": "Hüttentür",
+            "icon": "fts_door.png",
+            "display_name": "Hüttentür",
+            "icon_type": "Door"
+        }]
     }
 }

@@ -7,7 +7,7 @@ function Audio($component) {
         
     return '<div class="hh">'
         . '<div data-toggle="collapse" data-target="#' . $modalId . '">'
-            . '<img src="../assets/icons/' . $component["icon"] . '" class="icon">' . $component['name']
+            . '<img src="../assets/images/' . $component["icon"] . '" class="icon">&nbsp;&nbsp;&nbsp;' . $component['name']
         . '</div>'
         . '<div class="hh2 collapse" id="' . $modalId . '">'
             . '<audio src="' . $component['file'] . '" controls style="width: 100%;"></audio>'

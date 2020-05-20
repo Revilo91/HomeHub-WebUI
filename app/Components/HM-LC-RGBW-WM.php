@@ -9,7 +9,8 @@ function HM_LC_RGBW_WM($component) {
     if ($component['parent_device_interface'] == 'BidCos-RF' && $component['visible'] == 'true' && isset($component['LEVEL'])) {
         $modalId = mt_rand();
         
-        return '<div class="hh">'
+        if (!isset($component['color'])) $component['color'] = '#FFCC00';
+        return '<div class="hh" style=\'border-left-color: '.$component['color'].'; border-left-style: solid;\'>'
             . '<div data-toggle="collapse" data-target="#' . $modalId . '">'
                 . '<div class="pull-left"><img src="../assets/icons/' . $component["icon"] . '" class="icon">' . $component['name'] . '</div>'
                 . '<div class="pull-right">'

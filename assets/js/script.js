@@ -9,6 +9,10 @@ $(document).ready(function () {
         if (datapoint == '4' || datapoint == '20') {
             value = $('[name="' + id + '"]').val();
         }
+        else if (datapoint == 'DIMLEVEL') {
+            value = $('[name="' + id + '"]').val();
+            value = value / 100;
+        }
 
         setDatapoint(id, value);
     });
@@ -23,9 +27,15 @@ $(document).ready(function () {
 var updateDatapoints = function () {
     //192.168.2.6/config/xmlapi/state.cgi?datapoint_id=
 
-    // Uhrzeit setzen
+    // Uhrzeit, Datum und Logo setzen
     date = new Date();
+    if (logo !== "") {
+        var showlogo = '<img src="' + logo + '" /> &nbsp;&nbsp;&nbsp;';
+    } else {
+        var showlogo = "";
+    }
     $('#time').html(('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2) + ' Uhr');
+    $('#date').html(showlogo + ('0' + date.getDate()).slice(-2) + '.' + ('0' + (date.getMonth() + 1)).slice(-2) + '.' + date.getFullYear());
 
     var id = '';
 
@@ -52,7 +62,7 @@ var updateDatapoints = function () {
                 var datapoint = $('[data-id="' + ise_id + '"]').attr('data-datapoint');
                 var unit = $('[data-id="' + ise_id + '"]').attr('data-unit');
                 var valueList = $('[data-id="' + ise_id + '"]').attr('data-valuelist');
-
+                var icon = $('[data-id="' + ise_id + '"]').attr('data-icon');
                 if (!unit) {
                     unit = '';
                 }
@@ -94,25 +104,25 @@ var updateDatapoints = function () {
                                 value = (Math.round(value * 1000) / 10);
 
                                 if (value === 100) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_100.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_100.png" />');
                                 } else if (value >= 90) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_90.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_90.png" />');
                                 } else if (value >= 80) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_80.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_80.png" />');
                                 } else if (value >= 70) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_70.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_70.png" />');
                                 } else if (value >= 60) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_60.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_60.png" />');
                                 } else if (value >= 50) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_50.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_50.png" />');
                                 } else if (value >= 40) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_40.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_40.png" />');
                                 } else if (value >= 30) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_30.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_30.png" />');
                                 } else if (value >= 20) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_20.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_20.png" />');
                                 } else if (value > 0) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_10.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_10.png" />');
                                 } else if (value === 0) {
                                     $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_00.png" />');
                                 }
@@ -179,10 +189,34 @@ var updateDatapoints = function () {
                                 $('[data-id="' + ise_id + '"]').html(value);
                         }
                         break;
+
+                    case 'CUX0200':
+                        switch (datapoint) {
+                            case 'STATE':
+                                if (value === 'true') {
+                                    $('[data-id="' + ise_id + '"]').html('Ein');
+                                    $('[data-id="' + ise_id + '"]').addClass('btn-true');
+                                    $('[data-id="' + ise_id + '"]').removeClass('btn-false');
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
+                                } else {
+                                    $('[data-id="' + ise_id + '"]').html('Aus');
+                                    $('[data-id="' + ise_id + '"]').addClass('btn-false');
+                                    $('[data-id="' + ise_id + '"]').removeClass('btn-true');
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-value', '1');
+                                }
+                                break;
+                            default:
+                                $('[data-id="' + ise_id + '"]').html(value);
+                        }
+                        break;
+
+
                     case 'CUX9002':
                         switch (datapoint) {
                             case 'ABS_HUMIDITY':
-                                $('[data-id="' + ise_id + '"]').html((Math.round(value * 10) / 10) + ' %');
+                                $('[data-id="' + ise_id + '"]').html((Math.round(value * 10) / 10) + ' g/m&sup3;');
                                 break;
                             case 'DEW_POINT':
                                 $('[data-id="' + ise_id + '"]').html((Math.round(value * 10) / 10) + ' &deg;C');
@@ -382,13 +416,13 @@ var updateDatapoints = function () {
                         switch (datapoint) {
                             case 'CONTROL_MODE':
                                 if (value === 'true') {
-                                    $('[data-id="' + ise_id + '"]').html('Ein');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_on.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
                                     $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
                                 } else {
-                                    $('[data-id="' + ise_id + '"]').html('Aus');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_off.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
@@ -421,13 +455,13 @@ var updateDatapoints = function () {
                         switch (datapoint) {
                             case 'CONTROL_MODE':
                                 if (value === 'true') {
-                                    $('[data-id="' + ise_id + '"]').html('Ein');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_on.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
                                     $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
                                 } else {
-                                    $('[data-id="' + ise_id + '"]').html('Aus');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_off.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
@@ -460,13 +494,13 @@ var updateDatapoints = function () {
                         switch (datapoint) {
                             case 'CONTROL_MODE':
                                 if (value === 'true') {
-                                    $('[data-id="' + ise_id + '"]').html('Ein');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_on.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
                                     $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
                                 } else {
-                                    $('[data-id="' + ise_id + '"]').html('Aus');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_off.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
@@ -499,13 +533,13 @@ var updateDatapoints = function () {
                         switch (datapoint) {
                             case 'CONTROL_MODE':
                                 if (value === 'true') {
-                                    $('[data-id="' + ise_id + '"]').html('Ein');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_on.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
                                     $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
                                 } else {
-                                    $('[data-id="' + ise_id + '"]').html('Aus');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_off.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
@@ -513,10 +547,10 @@ var updateDatapoints = function () {
                                 }
                                 break;
                             case 'CURRENT':
-                                $('[data-id="' + ise_id + '"]').html((Math.round(value * 10) / 10) + ' mA');
+                                $('[data-id="' + ise_id + '"]').html('Strom: ' + (Math.round(value * 10) / 10) + ' mA');
                                 break;
                             case 'ENERGY_COUNTER':
-                                $('[data-id="' + ise_id + '"]').html((Math.round(value * 10) / 10) + ' Wh');
+                                $('[data-id="' + ise_id + '"]').html('Gesamt: ' + (Math.round(value * 10) / 10) + ' Wh');
                                 break;
                             case 'FREQUENCY':
                                 $('[data-id="' + ise_id + '"]').html((Math.round(value * 10) / 10) + ' Hz');
@@ -525,7 +559,46 @@ var updateDatapoints = function () {
                                 $('[data-id="' + ise_id + '"]').html(value);
                                 break;
                             case 'POWER':
-                                $('[data-id="' + ise_id + '"]').html((Math.round(value * 10) / 10) + ' W');
+                                $('[data-id="' + ise_id + '"]').html('Leistung: ' + (Math.round(value * 10) / 10) + ' W');
+                                break;
+                            case 'VOLTAGE':
+                                $('[data-id="' + ise_id + '"]').html((Math.round(value * 10) / 10) + ' V');
+                                break;
+                            default:
+                                $('[data-id="' + ise_id + '"]').html(value);
+                        }
+                        break;
+                    case 'HMIP-PSM':
+                        switch (datapoint) {
+                            case 'CONTROL_MODE':
+                                if (value === 'true') {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_on.png" />');
+                                    $('[data-id="' + ise_id + '"]').addClass('btn-true');
+                                    $('[data-id="' + ise_id + '"]').removeClass('btn-false');
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
+                                } else {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_off.png" />');
+                                    $('[data-id="' + ise_id + '"]').addClass('btn-false');
+                                    $('[data-id="' + ise_id + '"]').removeClass('btn-true');
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-value', '1');
+                                }
+                                break;
+                            case 'CURRENT':
+                                $('[data-id="' + ise_id + '"]').html('Strom: ' + (Math.round(value * 10) / 10) + ' mA');
+                                break;
+                            case 'ENERGY_COUNTER':
+                                $('[data-id="' + ise_id + '"]').html('Gesamt: ' + (Math.round(value * 10) / 10) + ' Wh');
+                                break;
+                            case 'FREQUENCY':
+                                $('[data-id="' + ise_id + '"]').html((Math.round(value * 10) / 10) + ' Hz');
+                                break;
+                            case 'STATE':
+                                $('[data-id="' + ise_id + '"]').html(value);
+                                break;
+                            case 'POWER':
+                                $('[data-id="' + ise_id + '"]').html('Leistung: ' + (Math.round(value * 10) / 10) + ' W');
                                 break;
                             case 'VOLTAGE':
                                 $('[data-id="' + ise_id + '"]').html((Math.round(value * 10) / 10) + ' V');
@@ -672,31 +745,134 @@ var updateDatapoints = function () {
                                 $('[data-id="' + ise_id + '"]').html(value);
                         }
                         break;
+                    case 'HmIP-BROLL':
+                        switch (datapoint) {
+                            case 'LEVEL':
+                                value = (Math.round(value * 1000) / 10);
+                                if (value === 100) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_window_2w.png" />');
+                                } else if (value >= 90) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_shutter_10.png" />');
+                                } else if (value >= 80) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_shutter_20.png" />');
+                                } else if (value >= 70) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_shutter_30.png" />');
+                                } else if (value >= 60) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_shutter_40.png" />');
+                                } else if (value >= 50) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_shutter_50.png" />');
+                                } else if (value >= 40) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_shutter_60.png" />');
+                                } else if (value >= 30) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_shutter_70.png" />');
+                                } else if (value >= 20) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_shutter_80.png" />');
+                                } else if (value > 0) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_shutter_90.png" />');
+                                } else if (value === 0) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_shutter_100.png" />');
+                                }
+                                break;
+                            default:
+                                $('[data-id="' + ise_id + '"]').html(value);
+                        }
+                        break;
+                    case 'HmIP-FROLL':
+                        switch (datapoint) {
+                            case 'LEVEL':
+                                value = (Math.round(value * 1000) / 10);
+                                if (value >= 100) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_window_2w.png" />');
+                                } else if (value >= 90) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_shutter_10.png" />');
+                                } else if (value >= 80) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_shutter_20.png" />');
+                                } else if (value >= 70) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_shutter_30.png" />');
+                                } else if (value >= 60) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_shutter_40.png" />');
+                                } else if (value >= 50) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_shutter_50.png" />');
+                                } else if (value >= 40) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_shutter_60.png" />');
+                                } else if (value >= 30) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_shutter_70.png" />');
+                                } else if (value >= 20) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_shutter_80.png" />');
+                                } else if (value > 0) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_shutter_90.png" />');
+                                } else if (value === 0) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_shutter_100.png" />');
+                                }
+                                break;
+                            default:
+                                $('[data-id="' + ise_id + '"]').html(value);
+                        }
+                        break;
+                    case 'HmIPW-DRBL4':
+                        switch (datapoint) {
+                            case 'LEVEL':
+                                value = (Math.round(value * 1000) / 10);
+                                if (value === 100) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_window_2w.png" />');
+                                } else if (value >= 90) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_shutter_10.png" />');
+                                } else if (value >= 80) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_shutter_20.png" />');
+                                } else if (value >= 70) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_shutter_30.png" />');
+                                } else if (value >= 60) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_shutter_40.png" />');
+                                } else if (value >= 50) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_shutter_50.png" />');
+                                } else if (value >= 40) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_shutter_60.png" />');
+                                } else if (value >= 30) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_shutter_70.png" />');
+                                } else if (value >= 20) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_shutter_80.png" />');
+                                } else if (value > 0) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_shutter_90.png" />');
+                                } else if (value === 0) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_shutter_100.png" />');
+                                }
+                                break;
+                            default:
+                                $('[data-id="' + ise_id + '"]').html(value);
+                        }
+                        break;
                     case 'HM-LC-Dim1PWM-CV':
                         switch (datapoint) {
                             case 'LEVEL':
                                 value = (Math.round(value * 1000) / 10);
-
+                                if (value > 0) {
+                                    $('[data-id="' + ise_id + '"]').addClass('btn-true');
+                                    $('[data-id="' + ise_id + '"]').removeClass('btn-false');
+                                }
+                                else {
+                                    $('[data-id="' + ise_id + '"]').addClass('btn-false');
+                                    $('[data-id="' + ise_id + '"]').removeClass('btn-true');
+                                }
                                 if (value === 100) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_100.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_100.png" />');
                                 } else if (value >= 90) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_90.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_90.png" />');
                                 } else if (value >= 80) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_80.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_80.png" />');
                                 } else if (value >= 70) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_70.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_70.png" />');
                                 } else if (value >= 60) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_60.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_60.png" />');
                                 } else if (value >= 50) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_50.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_50.png" />');
                                 } else if (value >= 40) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_40.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_40.png" />');
                                 } else if (value >= 30) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_30.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_30.png" />');
                                 } else if (value >= 20) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_20.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_20.png" />');
                                 } else if (value > 0) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_10.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_10.png" />');
                                 } else if (value === 0) {
                                     $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_00.png" />');
                                 }
@@ -709,27 +885,34 @@ var updateDatapoints = function () {
                         switch (datapoint) {
                             case 'LEVEL':
                                 value = (Math.round(value * 1000) / 10);
-
+                                if (value > 0) {
+                                    $('[data-id="' + ise_id + '"]').addClass('btn-true');
+                                    $('[data-id="' + ise_id + '"]').removeClass('btn-false');
+                                }
+                                else {
+                                    $('[data-id="' + ise_id + '"]').addClass('btn-false');
+                                    $('[data-id="' + ise_id + '"]').removeClass('btn-true');
+                                }
                                 if (value === 100) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_100.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_100.png" />');
                                 } else if (value >= 90) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_90.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_90.png" />');
                                 } else if (value >= 80) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_80.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_80.png" />');
                                 } else if (value >= 70) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_70.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_70.png" />');
                                 } else if (value >= 60) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_60.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_60.png" />');
                                 } else if (value >= 50) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_50.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_50.png" />');
                                 } else if (value >= 40) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_40.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_40.png" />');
                                 } else if (value >= 30) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_30.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_30.png" />');
                                 } else if (value >= 20) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_20.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_20.png" />');
                                 } else if (value > 0) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_10.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_10.png" />');
                                 } else if (value === 0) {
                                     $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_00.png" />');
                                 }
@@ -742,27 +925,34 @@ var updateDatapoints = function () {
                         switch (datapoint) {
                             case 'LEVEL':
                                 value = (Math.round(value * 1000) / 10);
-
+                                if (value > 0) {
+                                    $('[data-id="' + ise_id + '"]').addClass('btn-true');
+                                    $('[data-id="' + ise_id + '"]').removeClass('btn-false');
+                                }
+                                else {
+                                    $('[data-id="' + ise_id + '"]').addClass('btn-false');
+                                    $('[data-id="' + ise_id + '"]').removeClass('btn-true');
+                                }
                                 if (value === 100) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_100.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_100.png" />');
                                 } else if (value >= 90) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_90.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_90.png" />');
                                 } else if (value >= 80) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_80.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_80.png" />');
                                 } else if (value >= 70) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_70.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_70.png" />');
                                 } else if (value >= 60) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_60.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_60.png" />');
                                 } else if (value >= 50) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_50.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_50.png" />');
                                 } else if (value >= 40) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_40.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_40.png" />');
                                 } else if (value >= 30) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_30.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_30.png" />');
                                 } else if (value >= 20) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_20.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_20.png" />');
                                 } else if (value > 0) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_10.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_10.png" />');
                                 } else if (value === 0) {
                                     $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_00.png" />');
                                 }
@@ -775,27 +965,34 @@ var updateDatapoints = function () {
                         switch (datapoint) {
                             case 'LEVEL':
                                 value = (Math.round(value * 1000) / 10);
-
+                                if (value > 0) {
+                                    $('[data-id="' + ise_id + '"]').addClass('btn-true');
+                                    $('[data-id="' + ise_id + '"]').removeClass('btn-false');
+                                }
+                                else {
+                                    $('[data-id="' + ise_id + '"]').addClass('btn-false');
+                                    $('[data-id="' + ise_id + '"]').removeClass('btn-true');
+                                }
                                 if (value === 100) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_100.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_100.png" />');
                                 } else if (value >= 90) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_90.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_90.png" />');
                                 } else if (value >= 80) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_80.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_80.png" />');
                                 } else if (value >= 70) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_70.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_70.png" />');
                                 } else if (value >= 60) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_60.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_60.png" />');
                                 } else if (value >= 50) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_50.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_50.png" />');
                                 } else if (value >= 40) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_40.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_40.png" />');
                                 } else if (value >= 30) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_30.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_30.png" />');
                                 } else if (value >= 20) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_20.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_20.png" />');
                                 } else if (value > 0) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_10.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_10.png" />');
                                 } else if (value === 0) {
                                     $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_00.png" />');
                                 }
@@ -808,27 +1005,122 @@ var updateDatapoints = function () {
                         switch (datapoint) {
                             case 'LEVEL':
                                 value = (Math.round(value * 1000) / 10);
-
+                                if (value > 0) {
+                                    $('[data-id="' + ise_id + '"]').addClass('btn-true');
+                                    $('[data-id="' + ise_id + '"]').removeClass('btn-false');
+                                }
+                                else {
+                                    $('[data-id="' + ise_id + '"]').addClass('btn-false');
+                                    $('[data-id="' + ise_id + '"]').removeClass('btn-true');
+                                }
                                 if (value === 100) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_100.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_100.png" />');
                                 } else if (value >= 90) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_90.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_90.png" />');
                                 } else if (value >= 80) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_80.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_80.png" />');
                                 } else if (value >= 70) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_70.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_70.png" />');
                                 } else if (value >= 60) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_60.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_60.png" />');
                                 } else if (value >= 50) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_50.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_50.png" />');
                                 } else if (value >= 40) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_40.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_40.png" />');
                                 } else if (value >= 30) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_30.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_30.png" />');
                                 } else if (value >= 20) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_20.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_20.png" />');
                                 } else if (value > 0) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_10.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_10.png" />');
+                                } else if (value === 0) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_00.png" />');
+                                }
+                                break;
+                            default:
+                                $('[data-id="' + ise_id + '"]').html(value);
+                        }
+                        break;
+                    case 'HmIP-BDT':
+                        switch (datapoint) {
+                            case 'LEVEL':
+                                value = (Math.round(value * 1000) / 10);
+                                if (value > 0) {
+                                    $('[data-id="' + ise_id + '"]').addClass('btn-true');
+                                    $('[data-id="' + ise_id + '"]').removeClass('btn-false');
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
+                                }
+                                else {
+                                    $('[data-id="' + ise_id + '"]').addClass('btn-false');
+                                    $('[data-id="' + ise_id + '"]').removeClass('btn-true');
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-value', '1');
+                                }
+                                if (value === 100) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_100.png" />');
+                                } else if (value >= 90) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_90.png" />');
+                                } else if (value >= 80) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_80.png" />');
+                                } else if (value >= 70) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_70.png" />');
+                                } else if (value >= 60) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_60.png" />');
+                                } else if (value >= 50) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_50.png" />');
+                                } else if (value >= 40) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_40.png" />');
+                                } else if (value >= 30) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_30.png" />');
+                                } else if (value >= 20) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_20.png" />');
+                                } else if (value > 0) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_10.png" />');
+                                } else if (value === 0) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_00.png" />');
+                                }
+                                break;
+                            default:
+                                $('[data-id="' + ise_id + '"]').html(value);
+                        }
+                        break;
+                    case 'HmIPW-DRD3':
+                        switch (datapoint) {
+                            case 'LEVEL':
+                                value = (Math.round(value * 1000) / 10);
+                                if (value > 0) {
+                                    $('[data-id="' + ise_id + '"]').addClass('btn-true');
+                                    $('[data-id="' + ise_id + '"]').removeClass('btn-false');
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
+                                }
+                                else {
+                                    $('[data-id="' + ise_id + '"]').addClass('btn-false');
+                                    $('[data-id="' + ise_id + '"]').removeClass('btn-true');
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-value', '1');
+                                }
+                                if (value === 100) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_100.png" />');
+                                } else if (value >= 90) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_90.png" />');
+                                } else if (value >= 80) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_80.png" />');
+                                } else if (value >= 70) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_70.png" />');
+                                } else if (value >= 60) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_60.png" />');
+                                } else if (value >= 50) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_50.png" />');
+                                } else if (value >= 40) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_40.png" />');
+                                } else if (value >= 30) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_30.png" />');
+                                } else if (value >= 20) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_20.png" />');
+                                } else if (value > 0) {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_10.png" />');
                                 } else if (value === 0) {
                                     $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_00.png" />');
                                 }
@@ -851,25 +1143,25 @@ var updateDatapoints = function () {
                                 value = (Math.round(value * 1000) / 10);
 
                                 if (value === 100) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_100.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_100.png" />');
                                 } else if (value >= 90) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_90.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_90.png" />');
                                 } else if (value >= 80) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_80.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_80.png" />');
                                 } else if (value >= 70) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_70.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_70.png" />');
                                 } else if (value >= 60) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_60.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_60.png" />');
                                 } else if (value >= 50) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_50.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_50.png" />');
                                 } else if (value >= 40) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_40.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_40.png" />');
                                 } else if (value >= 30) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_30.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_30.png" />');
                                 } else if (value >= 20) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_20.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_20.png" />');
                                 } else if (value > 0) {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_10.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_on_10.png" />');
                                 } else if (value === 0) {
                                     $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/light_light_dim_00.png" />');
                                 }
@@ -887,13 +1179,13 @@ var updateDatapoints = function () {
                                 break;
                             case 'STATE':
                                 if (value === 'true') {
-                                    $('[data-id="' + ise_id + '"]').html('Ein');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_on.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
                                     $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
                                 } else {
-                                    $('[data-id="' + ise_id + '"]').html('Aus');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_off.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
@@ -913,13 +1205,13 @@ var updateDatapoints = function () {
                                 break;
                             case 'STATE':
                                 if (value === 'true') {
-                                    $('[data-id="' + ise_id + '"]').html('Ein');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_on.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
                                     $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
                                 } else {
-                                    $('[data-id="' + ise_id + '"]').html('Aus');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_off.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
@@ -939,13 +1231,13 @@ var updateDatapoints = function () {
                                 break;
                             case 'STATE':
                                 if (value === 'true') {
-                                    $('[data-id="' + ise_id + '"]').html('Ein');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_on.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
                                     $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
                                 } else {
-                                    $('[data-id="' + ise_id + '"]').html('Aus');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_off.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
@@ -965,18 +1257,230 @@ var updateDatapoints = function () {
                                 break;
                             case 'STATE':
                                 if (value === 'true') {
-                                    $('[data-id="' + ise_id + '"]').html('Ein');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_on.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
                                     $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
                                 } else {
-                                    $('[data-id="' + ise_id + '"]').html('Aus');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_off.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
                                     $('[data-id="' + ise_id + '"]').attr('data-set-value', '1');
                                 }
+                                break;
+                            default:
+                                $('[data-id="' + ise_id + '"]').html(value);
+                        }
+                        break;
+                    case 'HmIP-BSM':
+                        switch (datapoint) {
+                            case 'LOWBAT':
+                                if (value === 'true') {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/measure_battery_25.png" />');
+                                }
+                                break;
+                            case 'STATE':
+                                if (value === 'true') {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_on.png" />');
+                                    $('[data-id="' + ise_id + '"]').addClass('btn-true');
+                                    $('[data-id="' + ise_id + '"]').removeClass('btn-false');
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
+                                } else {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_off.png" />');
+                                    $('[data-id="' + ise_id + '"]').addClass('btn-false');
+                                    $('[data-id="' + ise_id + '"]').removeClass('btn-true');
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-value', '1');
+                                }
+                                break;
+                            case 'CURRENT':
+                                $('[data-id="' + ise_id + '"]').html('Strom: ' + (Math.round(value * 10) / 10) + ' mA');
+                                break;
+                            case 'ENERGY_COUNTER':
+                                $('[data-id="' + ise_id + '"]').html('Gesamt: ' + (Math.round(value * 10) / 10) + ' Wh');
+                                break;
+                            case 'FREQUENCY':
+                                $('[data-id="' + ise_id + '"]').html((Math.round(value * 10) / 10) + ' Hz');
+                                break;
+                            case 'POWER':
+                                $('[data-id="' + ise_id + '"]').html('Leistung: ' + (Math.round(value * 10) / 10) + ' W');
+                                break;
+                            case 'VOLTAGE':
+                                $('[data-id="' + ise_id + '"]').html((Math.round(value * 10) / 10) + ' V');
+                                break;
+                            default:
+                                $('[data-id="' + ise_id + '"]').html(value);
+                        }
+                        break;
+                    case 'HmIPW-DRS8':
+                        switch (datapoint) {
+                            case 'STATE':
+                                if (value === 'true') {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_on.png" />');
+                                    $('[data-id="' + ise_id + '"]').addClass('btn-true');
+                                    $('[data-id="' + ise_id + '"]').removeClass('btn-false');
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
+                                } else {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_off.png" />');
+                                    $('[data-id="' + ise_id + '"]').addClass('btn-false');
+                                    $('[data-id="' + ise_id + '"]').removeClass('btn-true');
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-value', '1');
+                                }
+                                break;
+                            default:
+                                $('[data-id="' + ise_id + '"]').html(value);
+                        }
+                        break;
+                    case 'HmIPW-DRS4':
+                        switch (datapoint) {
+                            case 'STATE':
+                                if (value === 'true') {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_on.png" />');
+                                    $('[data-id="' + ise_id + '"]').addClass('btn-true');
+                                    $('[data-id="' + ise_id + '"]').removeClass('btn-false');
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
+                                } else {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_off.png" />');
+                                    $('[data-id="' + ise_id + '"]').addClass('btn-false');
+                                    $('[data-id="' + ise_id + '"]').removeClass('btn-true');
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-value', '1');
+                                }
+                                break;
+                            default:
+                                $('[data-id="' + ise_id + '"]').html(value);
+                        }
+                        break;
+                    case 'HmIP-BSL':
+                        switch (datapoint) {
+                            case 'STATE':
+                                if (value === 'true') {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_on.png" />');
+                                    $('[data-id="' + ise_id + '"]').addClass('btn-true');
+                                    $('[data-id="' + ise_id + '"]').removeClass('btn-false');
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
+                                } else {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_off.png" />');
+                                    $('[data-id="' + ise_id + '"]').addClass('btn-false');
+                                    $('[data-id="' + ise_id + '"]').removeClass('btn-true');
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-value', '1');
+                                }
+                                break;
+                            default:
+                                $('[data-id="' + ise_id + '"]').html(value);
+                        }
+                        break;
+                    case 'HmIP-FSM':
+                        switch (datapoint) {
+                            case 'STATE':
+                                if (value === 'true') {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_on.png" />');
+                                    $('[data-id="' + ise_id + '"]').addClass('btn-true');
+                                    $('[data-id="' + ise_id + '"]').removeClass('btn-false');
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
+                                } else {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_off.png" />');
+                                    $('[data-id="' + ise_id + '"]').addClass('btn-false');
+                                    $('[data-id="' + ise_id + '"]').removeClass('btn-true');
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-value', '1');
+                                }
+                                break;
+                            case 'CURRENT':
+                                $('[data-id="' + ise_id + '"]').html('Strom: ' + (Math.round(value * 10) / 10) + ' mA');
+                                break;
+                            case 'ENERGY_COUNTER':
+                                $('[data-id="' + ise_id + '"]').html('Gesamt: ' + (Math.round(value * 10) / 10) + ' Wh');
+                                break;
+                            case 'FREQUENCY':
+                                $('[data-id="' + ise_id + '"]').html((Math.round(value * 10) / 10) + ' Hz');
+                                break;
+                            case 'POWER':
+                                $('[data-id="' + ise_id + '"]').html('Leistung: ' + (Math.round(value * 10) / 10) + ' W');
+                                break;
+                            case 'VOLTAGE':
+                                $('[data-id="' + ise_id + '"]').html((Math.round(value * 10) / 10) + ' V');
+                                break;
+                            default:
+                                $('[data-id="' + ise_id + '"]').html(value);
+                        }
+                        break;
+                    case 'HmIP-FSM16':
+                        switch (datapoint) {
+                            case 'STATE':
+                                if (value === 'true') {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_on.png" />');
+                                    $('[data-id="' + ise_id + '"]').addClass('btn-true');
+                                    $('[data-id="' + ise_id + '"]').removeClass('btn-false');
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
+                                } else {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_off.png" />');
+                                    $('[data-id="' + ise_id + '"]').addClass('btn-false');
+                                    $('[data-id="' + ise_id + '"]').removeClass('btn-true');
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-value', '1');
+                                }
+                                break;
+                            case 'CURRENT':
+                                $('[data-id="' + ise_id + '"]').html('Strom: ' + (Math.round(value * 10) / 10) + ' mA');
+                                break;
+                            case 'ENERGY_COUNTER':
+                                $('[data-id="' + ise_id + '"]').html('Gesamt: ' + (Math.round(value * 10) / 10) + ' Wh');
+                                break;
+                            case 'FREQUENCY':
+                                $('[data-id="' + ise_id + '"]').html((Math.round(value * 10) / 10) + ' Hz');
+                                break;
+                            case 'POWER':
+                                $('[data-id="' + ise_id + '"]').html('Leistung: ' + (Math.round(value * 10) / 10) + ' W');
+                                break;
+                            case 'VOLTAGE':
+                                $('[data-id="' + ise_id + '"]').html((Math.round(value * 10) / 10) + ' V');
+                                break;
+                            default:
+                                $('[data-id="' + ise_id + '"]').html(value);
+                        }
+                        break;
+                    case 'HmIP-FSI16':
+                        switch (datapoint) {
+                            case 'STATE':
+                                if (value === 'true') {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_on.png" />');
+                                    $('[data-id="' + ise_id + '"]').addClass('btn-true');
+                                    $('[data-id="' + ise_id + '"]').removeClass('btn-false');
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
+                                } else {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_off.png" />');
+                                    $('[data-id="' + ise_id + '"]').addClass('btn-false');
+                                    $('[data-id="' + ise_id + '"]').removeClass('btn-true');
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-value', '1');
+                                }
+                                break;
+                            case 'CURRENT':
+                                $('[data-id="' + ise_id + '"]').html('Strom: ' + (Math.round(value * 10) / 10) + ' mA');
+                                break;
+                            case 'ENERGY_COUNTER':
+                                $('[data-id="' + ise_id + '"]').html('Gesamt: ' + (Math.round(value * 10) / 10) + ' Wh');
+                                break;
+                            case 'FREQUENCY':
+                                $('[data-id="' + ise_id + '"]').html((Math.round(value * 10) / 10) + ' Hz');
+                                break;
+                            case 'POWER':
+                                $('[data-id="' + ise_id + '"]').html('Leistung: ' + (Math.round(value * 10) / 10) + ' W');
+                                break;
+                            case 'VOLTAGE':
+                                $('[data-id="' + ise_id + '"]').html((Math.round(value * 10) / 10) + ' V');
                                 break;
                             default:
                                 $('[data-id="' + ise_id + '"]').html(value);
@@ -991,13 +1495,13 @@ var updateDatapoints = function () {
                                 break;
                             case 'STATE':
                                 if (value === 'true') {
-                                    $('[data-id="' + ise_id + '"]').html('Ein');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_on.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
                                     $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
                                 } else {
-                                    $('[data-id="' + ise_id + '"]').html('Aus');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_off.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
@@ -1017,13 +1521,13 @@ var updateDatapoints = function () {
                                 break;
                             case 'STATE':
                                 if (value === 'true') {
-                                    $('[data-id="' + ise_id + '"]').html('Ein');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_on.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
                                     $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
                                 } else {
-                                    $('[data-id="' + ise_id + '"]').html('Aus');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_off.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
@@ -1043,13 +1547,13 @@ var updateDatapoints = function () {
                                 break;
                             case 'STATE':
                                 if (value === 'true') {
-                                    $('[data-id="' + ise_id + '"]').html('Ein');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_on.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
                                     $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
                                 } else {
-                                    $('[data-id="' + ise_id + '"]').html('Aus');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_off.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
@@ -1069,13 +1573,13 @@ var updateDatapoints = function () {
                                 break;
                             case 'STATE':
                                 if (value === 'true') {
-                                    $('[data-id="' + ise_id + '"]').html('Ein');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_on.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
                                     $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
                                 } else {
-                                    $('[data-id="' + ise_id + '"]').html('Aus');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_off.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
@@ -1095,13 +1599,13 @@ var updateDatapoints = function () {
                                 break;
                             case 'STATE':
                                 if (value === 'true') {
-                                    $('[data-id="' + ise_id + '"]').html('Ein');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_on.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
                                     $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
                                 } else {
-                                    $('[data-id="' + ise_id + '"]').html('Aus');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_off.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
@@ -1116,13 +1620,13 @@ var updateDatapoints = function () {
                         switch (datapoint) {
                             case 'STATE':
                                 if (value === 'true') {
-                                    $('[data-id="' + ise_id + '"]').html('Ein');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_on.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
                                     $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
                                 } else {
-                                    $('[data-id="' + ise_id + '"]').html('Aus');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_off.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
@@ -1142,13 +1646,13 @@ var updateDatapoints = function () {
                                 break;
                             case 'STATE':
                                 if (value === 'true') {
-                                    $('[data-id="' + ise_id + '"]').html('Ein');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_on.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
                                     $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
                                 } else {
-                                    $('[data-id="' + ise_id + '"]').html('Aus');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_off.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
@@ -1163,13 +1667,13 @@ var updateDatapoints = function () {
                         switch (datapoint) {
                             case 'STATE':
                                 if (value === 'true') {
-                                    $('[data-id="' + ise_id + '"]').html('Ein');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_on.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
                                     $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
                                 } else {
-                                    $('[data-id="' + ise_id + '"]').html('Aus');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_off.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
@@ -1210,13 +1714,13 @@ var updateDatapoints = function () {
                         switch (datapoint) {
                             case 'STATE':
                                 if (value === 'true') {
-                                    $('[data-id="' + ise_id + '"]').html('Ein');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_on.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
                                     $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
                                 } else {
-                                    $('[data-id="' + ise_id + '"]').html('Aus');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_off.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
@@ -1231,13 +1735,13 @@ var updateDatapoints = function () {
                         switch (datapoint) {
                             case 'STATE':
                                 if (value === 'true') {
-                                    $('[data-id="' + ise_id + '"]').html('Ein');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_on.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
                                     $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
                                 } else {
-                                    $('[data-id="' + ise_id + '"]').html('Aus');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_off.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
@@ -1252,13 +1756,13 @@ var updateDatapoints = function () {
                         switch (datapoint) {
                             case 'STATE':
                                 if (value === 'true') {
-                                    $('[data-id="' + ise_id + '"]').html('Ein');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_on.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
                                     $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
                                 } else {
-                                    $('[data-id="' + ise_id + '"]').html('Aus');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_off.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
@@ -1273,13 +1777,13 @@ var updateDatapoints = function () {
                         switch (datapoint) {
                             case 'STATE':
                                 if (value === 'true') {
-                                    $('[data-id="' + ise_id + '"]').html('Ein');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_on.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
                                     $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
                                 } else {
-                                    $('[data-id="' + ise_id + '"]').html('Aus');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_off.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
@@ -1297,13 +1801,13 @@ var updateDatapoints = function () {
                         switch (datapoint) {
                             case 'STATE':
                                 if (value === 'true') {
-                                    $('[data-id="' + ise_id + '"]').html('Ein');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_on.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
                                     $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
                                 } else {
-                                    $('[data-id="' + ise_id + '"]').html('Aus');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_off.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
@@ -1445,6 +1949,12 @@ var updateDatapoints = function () {
                     case 'HM-RCV-50':
                         $('[data-id="' + ise_id + '"]').html(value);
                         break;
+                    case 'HmIP-WRC6':
+                        $('[data-id="' + ise_id + '"]').html(value);
+                        break;
+                    case 'HmIP-WRC2':
+                        $('[data-id="' + ise_id + '"]').html(value);
+                        break;
                     case 'HM-SCI-3-FM':
                         switch (datapoint) {
                             case 'LOWBAT':
@@ -1480,13 +1990,13 @@ var updateDatapoints = function () {
                                 break;
                             case 'STATE':
                                 if (value === 'true') {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/secur_open.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/secur_open_sm.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
                                     $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
                                 } else {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/secur_locked.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/secur_locked_sm.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
@@ -1554,6 +2064,53 @@ var updateDatapoints = function () {
                                 $('[data-id="' + ise_id + '"]').html(value);
                         }
                         break;
+                    case 'HmIP-SPI':
+                        switch (datapoint) {
+                            case 'CURRENT_ILLUMINATION':
+                                $('[data-id="' + ise_id + '"]').html(value);
+                                break;
+                            case 'ILLUMINATION':
+                                $('[data-id="' + ise_id + '"]').html(value);
+                                break;
+                            case 'LOWBAT':
+                                if (value === 'true') {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/measure_battery_25.png" />');
+                                }
+                                break;
+                            case 'PRESENCE_DETECTION_STATE':
+                                if (value === 'true') {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/user_available.png" />');
+                                } else {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/user_n_a.png" />');
+                                }
+                                break;
+                            default:
+                                $('[data-id="' + ise_id + '"]').html(value);
+                        }
+                        break;
+                    case 'HmIP-SLO':
+                        switch (datapoint) {
+                            case 'LOWBAT':
+                                if (value === 'true') {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/measure_battery_25.png" />');
+                                }
+                                break;
+                            case 'CURRENT_ILLUMINATION':
+                                $('[data-id="' + ise_id + '"]').html(value + ' Lux');
+                                break;
+                            case 'AVERAGE_ILLUMINATION':
+                                $('[data-id="' + ise_id + '"]').html('&empty;: ' + value + ' Lux');
+                                break;
+                            case 'HIGHEST_ILLUMINATION':
+                                $('[data-id="' + ise_id + '"]').html('Max: ' + value + ' Lux');
+                                break;
+                            case 'LOWEST_ILLUMINATION':
+                                $('[data-id="' + ise_id + '"]').html('Min: ' + value + ' Lux');
+                                break;
+                            default:
+                                $('[data-id="' + ise_id + '"]').html(value);
+                        }
+                        break;
                     case 'HM-Sec-MDIR':
                         switch (datapoint) {
                             case 'BRIGHTNESS':
@@ -1583,18 +2140,82 @@ var updateDatapoints = function () {
                                 }
                                 break;
                             case 'STATE':
-                                switch (value) {
-                                    case '0':
-                                        $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_window_1w.png" />');
-                                        break;
-                                    case '1':
-                                        $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_window_1w_tilt.png" />');
-                                        break;
-                                    case '2':
-                                        $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_window_1w_open.png" />');
-                                        break;
-                                    default:
-                                        $('[data-id="' + ise_id + '"]').html(value);
+                                if (icon === "Window") {
+                                    switch (value) {
+                                        case '0':
+                                            $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_window_1w_gn.png" />');
+                                            break;
+                                        case '1':
+                                            $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_window_1w_tilt_rd.png" />');
+                                            break;
+                                        case '2':
+                                            $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_window_1w_open_rd.png" />');
+                                            break;
+                                        default:
+                                            $('[data-id="' + ise_id + '"]').html(value);
+                                    }
+                                    break;
+                                }
+                                else if (icon === "Door") {
+                                    switch (value) {
+                                        case '0':
+                                            $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_door_gn.png" />');
+                                            break;
+                                        case '1':
+                                            $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_door_tilt_rd.png" />');
+                                            break;
+                                        case '2':
+                                            $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_door_open_rd.png" />');
+                                            break;
+                                        default:
+                                            $('[data-id="' + ise_id + '"]').html(value);
+                                    }
+                                    break;
+                                }
+                                break;
+                            default:
+                                $('[data-id="' + ise_id + '"]').html(value);
+                        }
+                        break;
+                    case 'HmIP-SRH':
+                        switch (datapoint) {
+                            case 'LOW_BAT':
+                                if (value === 'true') {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/measure_battery_25.png" />');
+                                }
+                                break;
+                            case 'STATE':
+                                if (icon === "Window") {
+                                    switch (value) {
+                                        case '0':
+                                            $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_window_1w_gn.png" />');
+                                            break;
+                                        case '1':
+                                            $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_window_1w_tilt_rd.png" />');
+                                            break;
+                                        case '2':
+                                            $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_window_1w_open_rd.png" />');
+                                            break;
+                                        default:
+                                            $('[data-id="' + ise_id + '"]').html(value);
+                                    }
+                                    break;
+                                }
+                                else if (icon === "Door") {
+                                    switch (value) {
+                                        case '0':
+                                            $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_door_gn.png" />');
+                                            break;
+                                        case '1':
+                                            $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_door_tilt_rd.png" />');
+                                            break;
+                                        case '2':
+                                            $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_door_open_rd.png" />');
+                                            break;
+                                        default:
+                                            $('[data-id="' + ise_id + '"]').html(value);
+                                    }
+                                    break;
                                 }
                                 break;
                             default:
@@ -1645,10 +2266,105 @@ var updateDatapoints = function () {
                                 }
                                 break;
                             case 'STATE':
-                                if (value === 'false') {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_window_1w.png" />');
+                                if (icon === "Door") {
+                                    if (value === 'false') {
+                                        $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_door_gn.png" />');
+                                    } else {
+                                        $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_door_open_rd.png" />');
+                                    }
+                                }
+                                else if (icon === "Window") {
+                                    if (value === 'false') {
+                                        $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_window_1w_gn.png" />');
+                                    } else {
+                                        $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_window_1w_open_rd.png" />');
+                                    }
+                                }
+                                else if (icon === "Gate") {
+                                    if (value === 'false') {
+                                        $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_garage_door_100.png" />');
+                                    } else {
+                                        $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_garage.png" />');
+                                    }
+                                }
+                                else if (icon === "Roof") {
+                                    if (value === 'false') {
+                                        $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_window_roof_gr.png" />');
+                                    } else {
+                                        $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_window_roof_open_2_rd.png" />');
+                                    }
+                                }
+                                break;
+                            default:
+                                $('[data-id="' + ise_id + '"]').html(value);
+                        }
+                        break;
+                    case 'HmIP-SWDO-I':
+                        switch (datapoint) {
+                            case 'LOW_BAT':
+                                if (value === 'true') {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/measure_battery_25.png" />');
+                                }
+                                break;
+                            case 'STATE':
+                                if (value === '0') {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_window_1w_gn.png" />');
                                 } else {
-                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_window_1w_open.png" />');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_window_1w_open_rd.png" />');
+                                }
+                                break;
+                            default:
+                                $('[data-id="' + ise_id + '"]').html(value);
+                        }
+                        break;
+                    case 'HMIP-SWDO':
+                        switch (datapoint) {
+                            case 'LOW_BAT':
+                                if (value === 'true') {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/measure_battery_25.png" />');
+                                }
+                                break;
+                            case 'STATE':
+                                if (value === '0') {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_window_1w_gn.png" />');
+                                } else {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_window_1w_open_rd.png" />');
+                                }
+                                break;
+                            default:
+                                $('[data-id="' + ise_id + '"]').html(value);
+                        }
+                        break;
+                    case 'HmIP-SWDO-PL':
+                        switch (datapoint) {
+                            case 'LOW_BAT':
+                                if (value === 'true') {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/measure_battery_25.png" />');
+                                }
+                                break;
+                            case 'STATE':
+                                if (value === '0') {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_window_1w_gn.png" />');
+                                } else {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_window_1w_open_rd.png" />');
+                                }
+                                break;
+                            default:
+                                $('[data-id="' + ise_id + '"]').html(value);
+                        }
+                        break;
+                    case 'HmIP-SCI':
+                        switch (datapoint) {
+                            case 'LOW_BAT':
+                                if (value === 'true') {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/measure_battery_25.png" />');
+                                }
+                                break;
+                            case 'STATE':
+                                if (value === '0') {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_window_1w_gn.png" />');
+                                } else {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_window_1w_open_rd.png" />');
                                 }
                                 break;
                             default:
@@ -1935,10 +2651,10 @@ var updateDatapoints = function () {
                     case 'HM-TC-IT-WM-W-EU':
                         switch (datapoint) {
                             case 'ACTUAL_HUMIDITY':
-                                $('[data-id="' + ise_id + '"]').html((Math.round(value * 10) / 10) + ' %');
+                                $('[data-id="' + ise_id + '"]').html('RF: ' + (Math.round(value * 10) / 10) + ' %');
                                 break;
                             case 'ACTUAL_TEMPERATURE':
-                                $('[data-id="' + ise_id + '"]').html((Math.round(value * 10) / 10) + ' &deg;C');
+                                $('[data-id="' + ise_id + '"]').html('Ist: ' + (Math.round(value * 10) / 10) + ' &deg;C&nbsp;&nbsp;&nbsp;&nbsp;/');
                                 break;
                             case 'BATTERY_STATE':
                                 $('[data-id="' + ise_id + '"]').html((Math.round(value * 10) / 10) + ' V');
@@ -1955,13 +2671,169 @@ var updateDatapoints = function () {
                                 }
                                 break;
                             case 'SET_TEMPERATURE':
-                                $('[data-id="' + ise_id + '"]').html((Math.round(value * 10) / 10) + ' &deg;C');
+                                $('[data-id="' + ise_id + '"]').html('Soll: ' + (Math.round(value * 10) / 10) + ' &deg;C&nbsp;&nbsp;&nbsp;&nbsp;/');
                                 break;
                             case 'WINDOW_OPEN_REPORTING':
                                 if (value === 'false') {
                                     $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_window_1w.png" />');
                                 } else {
                                     $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_window_1w_open.png" />');
+                                }
+                                break;
+                            default:
+                                $('[data-id="' + ise_id + '"]').html(value);
+                        }
+                        break;
+                    case 'HmIP-STHD':
+                        switch (datapoint) {
+                            case 'HUMIDITY':
+                                $('[data-id="' + ise_id + '"]').html('RF: ' + (Math.round(value * 10) / 10) + ' %');
+                                break;
+                            case 'ACTUAL_TEMPERATURE':
+                                $('[data-id="' + ise_id + '"]').html('Ist: ' + (Math.round(value * 10) / 10) + ' &deg;C&nbsp;&nbsp;&nbsp;&nbsp;/');
+                                break;
+                            case 'SET_POINT_MODE':
+                                if (value === '0') {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/time_automatic.png" />');
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-id', parseInt(ise_id) - 10); //MANU_MODE
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-value', '1');
+                                } else {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/time_manual_mode.png" />');
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-id', parseInt(ise_id) - 10); //AUTO_MODE
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
+                                }
+                                break;
+                            case 'ACTIVE_PROFILE':
+                                $('[data-id="' + ise_id + '"]').html(value);
+                                break;
+                            case 'SET_POINT_TEMPERATURE':
+                                $('[data-id="' + ise_id + '"]').html('Soll: ' + (Math.round(value * 10) / 10) + ' &deg;C&nbsp;&nbsp;&nbsp;&nbsp;/');
+                                break;
+                            case 'WINDOW_STATE':
+                                if (value === '0') {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_window_1w.png" />');
+                                } else {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_window_1w_open.png" />');
+                                }
+                                break;
+                            case 'LOW_BAT':
+                                if (value === 'true') {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/measure_battery_25.png" />');
+                                }
+                                break;
+                            default:
+                                $('[data-id="' + ise_id + '"]').html(value);
+                        }
+                        break;
+                    case 'HmIP-WTH-2':
+                        switch (datapoint) {
+                            case 'HUMIDITY':
+                                $('[data-id="' + ise_id + '"]').html('RF: ' + (Math.round(value * 10) / 10) + ' %');
+                                break;
+                            case 'ACTUAL_TEMPERATURE':
+                                $('[data-id="' + ise_id + '"]').html('Ist: ' + (Math.round(value * 10) / 10) + ' &deg;C&nbsp;&nbsp;&nbsp;&nbsp;/');
+                                break;
+                            case 'SET_POINT_MODE':
+                                if (value === '0') {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/time_automatic.png" />');
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-id', parseInt(ise_id) - 10); //MANU_MODE
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-value', '1');
+                                } else {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/time_manual_mode.png" />');
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-id', parseInt(ise_id) - 10); //AUTO_MODE
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
+                                }
+                                break;
+                            case 'ACTIVE_PROFILE':
+                                $('[data-id="' + ise_id + '"]').html(value);
+                                break;
+                            case 'SET_POINT_TEMPERATURE':
+                                $('[data-id="' + ise_id + '"]').html('Soll: ' + (Math.round(value * 10) / 10) + ' &deg;C&nbsp;&nbsp;&nbsp;&nbsp;/');
+                                break;
+                            case 'WINDOW_STATE':
+                                if (value === '0') {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_window_1w.png" />');
+                                } else {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_window_1w_open.png" />');
+                                }
+                                break;
+                            case 'LOW_BAT':
+                                if (value === 'true') {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/measure_battery_25.png" />');
+                                }
+                                break;
+                            default:
+                                $('[data-id="' + ise_id + '"]').html(value);
+                        }
+                        break;
+                    case 'HmIP-BWTH':
+                        switch (datapoint) {
+                            case 'HUMIDITY':
+                                $('[data-id="' + ise_id + '"]').html('RF: ' + (Math.round(value * 10) / 10) + ' %');
+                                break;
+                            case 'ACTUAL_TEMPERATURE':
+                                $('[data-id="' + ise_id + '"]').html('Ist: ' + (Math.round(value * 10) / 10) + ' &deg;C&nbsp;&nbsp;&nbsp;&nbsp;/');
+                                break;
+                            case 'SET_POINT_MODE':
+                                if (value === '0') {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/time_automatic.png" />');
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-id', parseInt(ise_id) - 10); //MANU_MODE
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-value', '1');
+                                } else {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/time_manual_mode.png" />');
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-id', parseInt(ise_id) - 10); //AUTO_MODE
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
+                                }
+                                break;
+                            case 'ACTIVE_PROFILE':
+                                $('[data-id="' + ise_id + '"]').html(value);
+                                break;
+                            case 'SET_POINT_TEMPERATURE':
+                                $('[data-id="' + ise_id + '"]').html('Soll: ' + (Math.round(value * 10) / 10) + ' &deg;C&nbsp;&nbsp;&nbsp;&nbsp;/');
+                                break;
+                            case 'WINDOW_STATE':
+                                if (value === '0') {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_window_1w.png" />');
+                                } else {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_window_1w_open.png" />');
+                                }
+                                break;
+                            default:
+                                $('[data-id="' + ise_id + '"]').html(value);
+                        }
+                        break;
+                    case 'HMIP-eTRV':
+                        switch (datapoint) {
+                            case 'ACTUAL_TEMPERATURE':
+                                $('[data-id="' + ise_id + '"]').html('Ist: ' + (Math.round(value * 10) / 10) + ' &deg;C&nbsp;&nbsp;&nbsp;&nbsp;/');
+                                break;
+                            case 'SET_POINT_MODE':
+                                if (value === '0') {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/time_automatic.png" />');
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-id', parseInt(ise_id) - 10); //MANU_MODE
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-value', '1');
+                                } else {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/time_manual_mode.png" />');
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-id', parseInt(ise_id) - 10); //AUTO_MODE
+                                    $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
+                                }
+                                break;
+                            case 'ACTIVE_PROFILE':
+                                $('[data-id="' + ise_id + '"]').html(value);
+                                break;
+                            case 'SET_POINT_TEMPERATURE':
+                                $('[data-id="' + ise_id + '"]').html('Soll: ' + (Math.round(value * 10) / 10));
+                                break;
+                            case 'WINDOW_STATE':
+                                if (value === '0') {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_window_1w.png" />');
+                                } else {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_window_1w_open.png" />');
+                                }
+                                break;
+                            case 'LOW_BAT':
+                                if (value === 'true') {
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/measure_battery_25.png" />');
                                 }
                                 break;
                             default:
@@ -2042,6 +2914,27 @@ var updateDatapoints = function () {
                                 break;
                             case 'WIND_SPEED':
                                 $('[data-id="' + ise_id + '"]').html((Math.round(value * 10) / 10) + ' km/h');
+                                break;
+                            default:
+                                $('[data-id="' + ise_id + '"]').html(value);
+                        }
+                        break;
+                    case 'HmIP-SWO-B':
+                        switch (datapoint) {
+                            case 'ILLUMINATION':
+                                $('[data-id="' + ise_id + '"]').html('Helligkeit: ' + (Math.round(value * 10) / 10) + ' Lux');
+                                break;
+                            case 'HUMIDITY':
+                                $('[data-id="' + ise_id + '"]').html('Feuchte: ' + (Math.round(value * 10) / 10) + ' %');
+                                break;
+                            case 'SUNSHINEDURATION':
+                                $('[data-id="' + ise_id + '"]').html('Sonnenschein: ' + (Math.round(value * 10) / 10) + ' Min.');
+                                break;
+                            case 'ACTUAL_TEMPERATURE':
+                                $('[data-id="' + ise_id + '"]').html('Temperatur: ' + (Math.round(value * 10) / 10) + ' &deg;C');
+                                break;
+                            case 'WIND_SPEED':
+                                $('[data-id="' + ise_id + '"]').html('Wind: ' + (Math.round(value * 10) / 10) + ' km/h');
                                 break;
                             default:
                                 $('[data-id="' + ise_id + '"]').html(value);
@@ -2151,13 +3044,13 @@ var updateDatapoints = function () {
                                 break;
                             case 'STATE':
                                 if (value === 'true') {
-                                    $('[data-id="' + ise_id + '"]').html('Ein');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_on.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
                                     $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
                                 } else {
-                                    $('[data-id="' + ise_id + '"]').html('Aus');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_off.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
@@ -2166,6 +3059,15 @@ var updateDatapoints = function () {
                                 break;
                             case 'VALUE':
                                 $('[data-id="' + ise_id + '"]').html(Math.round(value * 10) / 10);
+                                break;
+                            default:
+                                $('[data-id="' + ise_id + '"]').html(value);
+                        }
+                        break;
+                    case 'HM-Sen-LI-O':
+                        switch (datapoint) {
+                            case 'LUX':
+                                $('[data-id="' + ise_id + '"]').html(value + ' Lux');
                                 break;
                             default:
                                 $('[data-id="' + ise_id + '"]').html(value);
@@ -2250,7 +3152,14 @@ var updateDatapoints = function () {
                         switch (datapoint) {
                             case 'LEVEL':
                                 value = (Math.round(value * 1000) / 10);
-
+                                if (value > 0) {
+                                    $('[data-id="' + ise_id + '"]').addClass('btn-true');
+                                    $('[data-id="' + ise_id + '"]').removeClass('btn-false');
+                                }
+                                else {
+                                    $('[data-id="' + ise_id + '"]').addClass('btn-false');
+                                    $('[data-id="' + ise_id + '"]').removeClass('btn-true');
+                                }
                                 if (value === 100) {
                                     $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/fts_window_2w.png" />');
                                 } else if (value >= 90) {
@@ -2283,13 +3192,13 @@ var updateDatapoints = function () {
                         switch (datapoint) {
                             case 'STATE':
                                 if (value === 'true') {
-                                    $('[data-id="' + ise_id + '"]').html('Ein');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_on.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
                                     $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
                                 } else {
-                                    $('[data-id="' + ise_id + '"]').html('Aus');
+                                    $('[data-id="' + ise_id + '"]').html('<img src="../assets/icons/switch_off.png" />');
                                     $('[data-id="' + ise_id + '"]').addClass('btn-false');
                                     $('[data-id="' + ise_id + '"]').removeClass('btn-true');
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
@@ -2321,30 +3230,42 @@ var updateDatapoints = function () {
                             case '2':
                                 // Yes/No
                                 var invert_color = $('[data-id="' + ise_id + '"]').attr('data-invert-color');
-                                
+                                var indicator_mode = $('[data-id="' + ise_id + '"]').attr('data-indicator-mode');
+
+                                var off_type = "false";
+                                var on_type = "true";
+                                if (indicator_mode === "on") {
+                                    if (invert_color === "false") off_type = "off";
+                                    else on_type = "off";
+                                }
+                                else if (indicator_mode === "off") {
+                                    if (invert_color === "false") on_type = "off";
+                                    else off_type = "off";
+                                }
+
                                 if (value === 'true') {
-                                    $('[data-id="' + ise_id + '"]').html(valueList.split(';')[parseInt(1)]);                                    
+                                    $('[data-id="' + ise_id + '"]').html(valueList.split(';')[parseInt(1)]);
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
                                     $('[data-id="' + ise_id + '"]').attr('data-set-value', '0');
-                                    
+
                                     if (invert_color === 'false') {
-                                        $('[data-id="' + ise_id + '"]').addClass('btn-true');
-                                        $('[data-id="' + ise_id + '"]').removeClass('btn-false');
+                                        $('[data-id="' + ise_id + '"]').addClass('btn-' + on_type);
+                                        $('[data-id="' + ise_id + '"]').removeClass('btn-' + off_type);
                                     } else {
-                                        $('[data-id="' + ise_id + '"]').addClass('btn-false');
-                                        $('[data-id="' + ise_id + '"]').removeClass('btn-true');
+                                        $('[data-id="' + ise_id + '"]').addClass('btn-' + off_type);
+                                        $('[data-id="' + ise_id + '"]').removeClass('btn-' + on_type);
                                     }
                                 } else {
                                     $('[data-id="' + ise_id + '"]').html(valueList.split(';')[parseInt(0)]);
                                     $('[data-id="' + ise_id + '"]').attr('data-set-id', ise_id);
                                     $('[data-id="' + ise_id + '"]').attr('data-set-value', '1');
-                                    
+
                                     if (invert_color === 'false') {
-                                        $('[data-id="' + ise_id + '"]').addClass('btn-false');
-                                        $('[data-id="' + ise_id + '"]').removeClass('btn-true');
+                                        $('[data-id="' + ise_id + '"]').addClass('btn-' + off_type);
+                                        $('[data-id="' + ise_id + '"]').removeClass('btn-' + on_type);
                                     } else {
-                                        $('[data-id="' + ise_id + '"]').addClass('btn-true');
-                                        $('[data-id="' + ise_id + '"]').removeClass('btn-false');
+                                        $('[data-id="' + ise_id + '"]').addClass('btn-' + on_type);
+                                        $('[data-id="' + ise_id + '"]').removeClass('btn-' + off_type);
                                     }
                                 }
                                 break;
@@ -2358,12 +3279,180 @@ var updateDatapoints = function () {
                                 break;
                             case '16':
                                 // Value List
+                                var indicator = $('[data-id="' + ise_id + '"]').attr('data-indicator');
+                                var indicator_mode = $('[data-id="' + ise_id + '"]').attr('data-indicator-mode');
+                                var invert_color = $('[data-id="' + ise_id + '"]').attr('data-invert-color');
+
+                                if (indicator !== "-1") {
+                                    // Liste suchen und zerlegen
+                                    var res = indicator.search(",");
+                                    if (res > -1) {
+                                        var indarray = indicator.split(';');
+                                        for (var i = 0; i < indarray.length; i++) {
+                                            var indicator_array = indarray[i].split(',');
+                                            if (value === indicator_array[0].trim()) {
+                                                if (indicator_array[1].trim() === "true") {
+                                                    var on_type = "true";
+                                                    var off_type = "false";
+                                                    var snd_off_type = "off";
+                                                    var trd_off_type = "warn";
+                                                }
+                                                else if (indicator_array[1].trim() === "false") {
+                                                    var on_type = "false";
+                                                    var off_type = "true";
+                                                    var snd_off_type = "off";
+                                                    var trd_off_type = "warn";
+                                                }
+                                                else if (indicator_array[1].trim() === "warn") {
+                                                    var on_type = "warn";
+                                                    var off_type = "true";
+                                                    var snd_off_type = "false";
+                                                    var trd_off_type = "off";
+                                                }
+                                                else {
+                                                    var on_type = "off";
+                                                    var off_type = "false";
+                                                    var snd_off_type = "true";
+                                                    var trd_off_type = "warn";
+                                                }
+                                                break;
+                                            }
+                                            else if ((i + 1) === indarray.length) {
+                                                var on_type = "off";
+                                                var off_type = "false";
+                                                var snd_off_type = "true";
+                                                var trd_off_type = "warn";
+                                            }
+                                        }
+                                        $('[data-id="' + ise_id + '"]').addClass('btn-' + on_type);
+                                        $('[data-id="' + ise_id + '"]').removeClass('btn-' + off_type);
+                                        $('[data-id="' + ise_id + '"]').removeClass('btn-' + snd_off_type);
+                                        $('[data-id="' + ise_id + '"]').removeClass('btn-' + trd_off_type);
+                                    }
+                                    else {
+                                        var off_type = "false";
+                                        var on_type = "true";
+                                        if (indicator_mode === "on") {
+                                            if (invert_color === "false") off_type = "off";
+                                            else on_type = "off";
+                                        }
+                                        else if (indicator_mode === "off") {
+                                            if (invert_color === "false") on_type = "off";
+                                            else off_type = "off";
+                                        }
+
+                                        if (value === indicator) {
+                                            if (invert_color === 'false') {
+                                                $('[data-id="' + ise_id + '"]').addClass('btn-' + on_type);
+                                                $('[data-id="' + ise_id + '"]').removeClass('btn-' + off_type);
+                                            } else {
+                                                $('[data-id="' + ise_id + '"]').addClass('btn-' + off_type);
+                                                $('[data-id="' + ise_id + '"]').removeClass('btn-' + on_type);
+                                            }
+                                        } else {
+                                            if (invert_color === 'false') {
+                                                $('[data-id="' + ise_id + '"]').addClass('btn-' + off_type);
+                                                $('[data-id="' + ise_id + '"]').removeClass('btn-' + on_type);
+                                            } else {
+                                                $('[data-id="' + ise_id + '"]').addClass('btn-' + on_type);
+                                                $('[data-id="' + ise_id + '"]').removeClass('btn-' + off_type);
+                                            }
+                                        }
+                                    }
+                                }
                                 if (valueList !== '') {
                                     $('[data-id="' + ise_id + '"]').html(valueList.split(';')[parseInt(value)]);
                                 }
                                 break;
                             case '20':
                                 // Text
+                                var indicator = $('[data-id="' + ise_id + '"]').attr('data-indicator');
+                                var indicator_mode = $('[data-id="' + ise_id + '"]').attr('data-indicator-mode');
+                                var invert_color = $('[data-id="' + ise_id + '"]').attr('data-invert-color');
+
+                                var off_type = "false";
+                                var on_type = "true";
+                                if (indicator_mode === "on") {
+                                    if (invert_color === "false") off_type = "off";
+                                    else on_type = "off";
+                                }
+                                else if (indicator_mode === "off") {
+                                    if (invert_color === "false") on_type = "off";
+                                    else off_type = "off";
+                                }
+
+                                if (indicator !== "-1") {
+                                    // Liste suchen und zerlegen
+                                    var res = indicator.search(",");
+                                    if (res > -1) {
+                                        var indarray = indicator.split(';');
+                                        for (var i = 0; i < indarray.length; i++) {
+                                            var indicator_array = indarray[i].split(',');
+                                            var patt = new RegExp(indicator_array[0].trim());
+                                            var res = patt.test(value);
+                                            if (res === true) {
+                                                if (indicator_array[1].trim() === "true") {
+                                                    var on_type = "true";
+                                                    var off_type = "false";
+                                                    var snd_off_type = "off";
+                                                    var trd_off_type = "warn";
+                                                }
+                                                else if (indicator_array[1].trim() === "false") {
+                                                    var on_type = "false";
+                                                    var off_type = "true";
+                                                    var snd_off_type = "off";
+                                                    var trd_off_type = "warn";
+                                                }
+                                                else if (indicator_array[1].trim() === "warn") {
+                                                    var on_type = "warn";
+                                                    var off_type = "true";
+                                                    var snd_off_type = "false";
+                                                    var trd_off_type = "off";
+                                                }
+                                                else {
+                                                    var on_type = "off";
+                                                    var off_type = "false";
+                                                    var snd_off_type = "true";
+                                                    var trd_off_type = "warn";
+                                                }
+                                                break;
+                                            }
+                                            else if ((i + 1) === indarray.length) {
+                                                var on_type = "off";
+                                                var off_type = "false";
+                                                var snd_off_type = "true";
+                                                var trd_off_type = "warn";
+                                            }
+                                        }
+                                        $('[data-id="' + ise_id + '"]').addClass('btn-' + on_type);
+                                        $('[data-id="' + ise_id + '"]').removeClass('btn-' + off_type);
+                                        $('[data-id="' + ise_id + '"]').removeClass('btn-' + snd_off_type);
+                                        $('[data-id="' + ise_id + '"]').removeClass('btn-' + trd_off_type);
+                                    }
+                                    else {
+                                        var patt = new RegExp(indicator);
+                                        var res = patt.test(value);
+
+                                        if (res === true) {
+                                            if (invert_color === 'false') {
+                                                $('[data-id="' + ise_id + '"]').addClass('btn-' + on_type);
+                                                $('[data-id="' + ise_id + '"]').removeClass('btn-' + off_type);
+                                            } else {
+                                                $('[data-id="' + ise_id + '"]').addClass('btn-' + off_type);
+                                                $('[data-id="' + ise_id + '"]').removeClass('btn-' + on_type);
+                                            }
+                                        } else {
+                                            if (invert_color === 'false') {
+                                                $('[data-id="' + ise_id + '"]').addClass('btn-' + off_type);
+                                                $('[data-id="' + ise_id + '"]').removeClass('btn-' + on_type);
+                                            } else {
+                                                $('[data-id="' + ise_id + '"]').addClass('btn-' + on_type);
+                                                $('[data-id="' + ise_id + '"]').removeClass('btn-' + off_type);
+                                            }
+                                        }
+                                    }
+                                }
+
                                 if (unit !== '') {
                                     $('[data-id="' + ise_id + '"]').html(value + ' ' + unit);
                                 } else {
@@ -2379,7 +3468,8 @@ var updateDatapoints = function () {
                         }
                         break;
                     default:
-                        $('[data-id="' + ise_id + '"]').html(value);
+                        console.log(component + " not found!!!!")
+                        $('[data-id="' + ise_id + '"]').html("!!!!!!!!!!!!!!!"+component + "<br>" + value);
                 }
             });
 

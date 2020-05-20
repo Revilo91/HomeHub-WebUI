@@ -1,100 +1,253 @@
 {
-  "categories": [
-    {
-      "name": "Home",
-      "icon": "control_home.png",
-      "subcategories": [],
-      "append_divider": "true"
-    },
-    {
-      "name": "Erdgeschoss",
-      "icon": "control_building_modern_s_okg_eg.png",
-      "subcategories": [
-        "Badezimmer",
-        "Esszimmer", 
-        {
-          "name": "Küche",
-          "display_name": "Küche EG"
+    "categories": [{
+            "name": "Home",
+            "icon": "control_home.png",
+            "subcategories": [{
+                    "name": "Home_Index",
+                    "display_name": "Info"
+                },
+                {
+                    "name": "System_Status",
+                    "display_name": "CCU Status"
+                },
+                {
+                    "name": "Webcam",
+                    "display_name": "Haustür"
+                },
+                {
+                    "name": "Tagesschau",
+                    "display_name": "Tagesschau"
+                }
+            ],
+            "append_divider": "true"
         },
-        "Wohnzimmer"
-      ]
-    },
-    {
-      "name": "Obergeschoss",
-      "icon": "control_building_modern_s_okg_og.png",
-      "subcategories": ["Büro", "Schlafzimmer", "Toilette"]
-    },
-    {
-      "name": "Dachgeschoss",
-      "icon": "control_building_modern_s_okg_dg.png",
-      "subcategories": ["Kinderzimmer"]
-    },
-    {
-      "name": "Einfahrt",
-      "icon": "fts_garage.png",
-      "subcategories": []
-    },
-    {
-      "name": "Garten",
-      "icon": "scene_garden.png",
-      "subcategories": [],
-      "append_divider": "true"
-    },
-    {
-      "name": "Aktoren",
-      "icon": "message_socket_on_off.png",
-      "subcategories": []
-    },
-    {
-      "name": "CUxD",
-      "icon": "time_timer.png",
-      "subcategories": []
-    },
-    {
-      "name": "Custom",
-      "icon": "scene_making_love_clean.png",
-      "subcategories": []
-    },
-    {
-      "name": "Fenster",
-      "icon": "fts_window_2w_open_l.png",
-      "subcategories": []
-    },
-    {
-      "name": "Heizung",
-      "icon": "sani_heating.png",
-      "subcategories": []
-    },
-    {
-      "name": "Sender",
-      "icon": "control_switch_m_4.png",
-      "subcategories": []
-    },
-    {
-      "name": "Sicherheit",
-      "icon": "secur_alarm_alarm.png",
-      "subcategories": []
-    },
-    {
-      "name": "Wetter",
-      "icon": "temp_temperature.png",
-      "subcategories": []
-    },
-    {
-      "name": "Programme",
-      "icon": "audio_play.png",
-      "subcategories": []
-    },
-    {
-      "name": "Systemvariablen",
-      "icon": "control_clear.png",
-      "subcategories": [],
-      "append_divider": "true"
-    },
-    {
-      "name": "Import",
-      "icon": "edit_settings.png",
-      "subcategories": []
-    }
-  ]
+        {
+            "name": "Kellergeschoss",
+            "icon": "control_building_kg.png",
+            "subcategories": [{
+                    "name": "KG_Heizung",
+                    "display_name": "Heizung"
+                },
+                {
+                    "name": "KG_Licht",
+                    "display_name": "Licht"
+                },
+                {
+                    "name": "Heizung zentral",
+                    "display_name": "Heizung Zentrale"
+                }
+            ]
+        },
+        {
+            "name": "Erdgeschoss",
+            "icon": "control_building_eg.png",
+            "subcategories": [{
+                    "name": "EG_Heizung",
+                    "display_name": "Heizung"
+                },
+                {
+                    "name": "EG_Licht",
+                    "display_name": "Licht"
+                },
+                {
+                    "name": "EG_Rolllaeden",
+                    "display_name": "Rolll&auml;den EG"
+                },
+                {
+                    "name": "Fenster_EG",
+                    "display_name": "Fenster EG"
+                }
+            ]
+        },
+        {
+            "name": "Obergeschoss",
+            "icon": "control_building_og.png",
+            "subcategories": [{
+                    "name": "OG_Heizung",
+                    "display_name": "Heizung"
+                },
+                {
+                    "name": "OG_Licht",
+                    "display_name": "Licht"
+                },
+                {
+                    "name": "OG_Schalter",
+                    "display_name": "Steckdosen"
+                },
+                {
+                    "name": "OG_Rolllaeden",
+                    "display_name": "Rolll&auml;den"
+                },
+                {
+                    "name": "Fenster_OG",
+                    "display_name": "Fenster OG"
+                }
+            ]
+        },
+        {
+            "name": "Garten",
+            "icon": "scene_garden.png",
+            "subcategories": [{
+                    "name": "Garten_Licht",
+                    "display_name": "Beleuchtung"
+                },
+                {
+                    "name": "Pool",
+                    "display_name": "Pool"
+                },
+                {
+                    "name": "Garten_Strom",
+                    "display_name": "Strom"
+                },
+                {
+                    "name": "Garten_Umwelt",
+                    "display_name": "Umwelt"
+                },
+                {
+                    "name": "Garten_Erkennung",
+                    "display_name": "Erkennung"
+                }
+            ],
+            "append_divider": "true"
+        },
+        {
+            "name": "Licht",
+            "icon": "light_light_dim_100.png",
+            "subcategories": [{
+                    "name": "Licht zentral",
+                    "display_name": "Zentralsteuerung"
+                },
+                {
+                    "name": "KG_Licht",
+                    "display_name": "Kellergeschoss"
+                },
+                {
+                    "name": "EG_Licht",
+                    "display_name": "Erdgeschoss"
+                },
+                {
+                    "name": "OG_Licht",
+                    "display_name": "Obergeschoss"
+                },
+                {
+                    "name": "Garten_Licht",
+                    "display_name": "Garten"
+                }
+            ]
+        },
+        {
+            "name": "Beschattung ",
+            "icon": "fts_shutter_50.png",
+            "subcategories": [{
+                    "name": "Rolllaeden zentral",
+                    "display_name": "Zentralsteuerung"
+                },
+                {
+                    "name": "EG_Rolllaeden",
+                    "display_name": "Erdgeschoss"
+                },
+                {
+                    "name": "OG_Rolllaeden",
+                    "display_name": "Obergeschoss"
+                }
+            ]
+        },
+        {
+            "name": "Raumklima",
+            "icon": "sani_heating.png",
+            "subcategories": [{
+                    "name": "EG_Heizung",
+                    "display_name": "Erdgeschoss"
+                },
+                {
+                    "name": "OG_Heizung",
+                    "display_name": "Obergeschoss"
+                }
+            ]
+        },
+        {
+            "name": "Fenster",
+            "icon": "fts_window_2w.png",
+            "subcategories": [{
+                    "name": "Fenster_EG",
+                    "display_name": "Fenster EG"
+                },
+                {
+                    "name": "Fenster_OG",
+                    "display_name": "Fenster OG"
+                }
+            ],
+            "append_divider": "true"
+        },
+        {
+            "name": "Garage",
+            "icon": "fts_garage.png",
+            "subcategories": [{
+                    "name": "Garage_Tor",
+                    "display_name": "Garage "
+                },
+                {
+                    "name": "Carport_Tor",
+                    "display_name": "Carport"
+                },
+                {
+                    "name": "Hütte_Tür",
+                    "display_name": "Hütte"
+                }
+            ],
+            "append_divider": "true"
+        },
+        {
+            "name": "Systemvariablen",
+            "icon": "control_clear.png",
+            "subcategories": [],
+            "append_divider": "true"
+        },
+        {
+            "name": "Aktoren",
+            "icon": "x_hmip_logo.png",
+            "subcategories": []
+        },
+        {
+            "name": "Wetter",
+            "icon": "x_hmip_logo.png",
+            "subcategories": []
+        },
+        {
+            "name": "Sicherheit",
+            "icon": "x_hmip_logo.png",
+            "subcategories": []
+        },
+        {
+            "name": "Sender",
+            "icon": "x_hmip_logo.png",
+            "subcategories": []
+        },
+        {
+            "name": "Heizung",
+            "icon": "x_hmip_logo.png",
+            "subcategories": []
+        },
+        {
+            "name": "CUxD",
+            "icon": "x_hmip_logo.png",
+            "subcategories": []
+        },
+        {
+            "name": "Beschattung",
+            "icon": "x_hmip_logo.png",
+            "subcategories": []
+        },
+        {
+            "name": "Fenster_mapping",
+            "icon": "x_hmip_logo.png",
+            "subcategories": []
+        },
+        {
+            "name": "All",
+            "icon": "x_hmip_logo.png",
+            "subcategories": [],
+            "append_divider": "true"
+        }
+    ]
 }

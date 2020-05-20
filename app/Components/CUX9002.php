@@ -12,7 +12,7 @@ function CUX9002($component) {
         $datapoints = array();
         
         if(isset($component['TEMPERATURE'])) {
-            $datapoints[] = '<span class="info" data-id="' . $component['TEMPERATURE'] . '" data-component="' . $component['component'] . '" data-datapoint="TEMPERATURE"></span>';
+            $datapoints[] = '<span class="info" data-id="' . $component['TEMPERATURE'] . '" data-component="' . $component['component'] . '" data-datapoint="TEMPERATURE" style="font-weight: bold"></span>';
         }
         if(isset($component['HUMIDITY'])) {
             $datapoints[] = '<span class="info" data-id="' . $component['HUMIDITY'] . '" data-component="' . $component['component'] . '" data-datapoint="HUMIDITY"></span>';

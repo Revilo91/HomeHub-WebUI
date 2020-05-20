@@ -8,16 +8,16 @@
 function HM_TC_IT_WM_W_EU($component) {
     if ($component['parent_device_interface'] == 'BidCos-RF' && $component['visible'] == 'true' && isset($component['CONTROL_MODE'])) {
         $modalId = mt_rand();
-        
-        return '<div class="hh">'
+        if (!isset($component['color'])) $component['color'] = '#00CC33';
+        return '<div class="hh" style=\'border-left-color: '.$component['color'].'; border-left-style: solid;\'>'
             . '<div data-toggle="collapse" data-target="#' . $modalId . '">'
                 . '<div class="pull-left"><img src="../assets/icons/' . $component["icon"] . '" class="icon">' . $component['name'] . '</div>'
                 . '<div class="pull-right">'
                     . '<span class="info" data-id="' . $component['ACTUAL_TEMPERATURE'] . '" data-component="' . $component['component'] . '" data-datapoint="ACTUAL_TEMPERATURE"></span>'
                     . '<span class="info" data-id="' . $component['SET_TEMPERATURE'] . '" data-component="' . $component['component'] . '" data-datapoint="SET_TEMPERATURE"></span>'
                     . '<span class="info" data-id="' . $component['ACTUAL_HUMIDITY'] . '" data-component="' . $component['component'] . '" data-datapoint="ACTUAL_HUMIDITY"></span>'
-                    . '<span class="info" data-id="' . $component['BATTERY_STATE'] . '" data-component="' . $component['component'] . '" data-datapoint="BATTERY_STATE"></span>'
-                    . '<span class="info" data-id="' . $component['WINDOW_OPEN_REPORTING'] . '" data-component="' . $component['component'] . '" data-datapoint="WINDOW_OPEN_REPORTING"></span>'
+                    /*. '<span class="info" data-id="' . $component['BATTERY_STATE'] . '" data-component="' . $component['component'] . '" data-datapoint="BATTERY_STATE"></span>'
+                    . '<span class="info" data-id="' . $component['WINDOW_OPEN_REPORTING'] . '" data-component="' . $component['component'] . '" data-datapoint="WINDOW_OPEN_REPORTING"></span>'*/
                     . '<span class="info set btn-icon" data-id="' . $component['CONTROL_MODE'] . '" data-component="' . $component['component'] . '" data-datapoint="CONTROL_MODE" data-set-id="" data-set-value""></span>'
                 . '</div>'
                 . '<div class="clearfix"></div>'
